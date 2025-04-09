@@ -14,3 +14,4 @@ DB_HOST=db
 DB_PORT=5432
 ```
 Just run docker compose up
+wait a bit and run test.html after everything is done
