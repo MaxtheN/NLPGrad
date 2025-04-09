@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chatbot</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+
+  <div class="chat-container">
+    <div class="chat-header">
+      <i data-lucide="bot" style="width: 20px; height: 20px;"></i>
+      Chat with us!
+    </div>
+    <div id="chat" class="chat-messages"></div>
+    <div class="chat-input">
+      <input type="text" id="msgBox" placeholder="Write a message..." />
+      <button onclick="sendMessage()" id="sendBtn">
+        <i data-lucide="send" style="width: 20px; height: 20px;"></i>
+      </button>
+    </div>
+  </div>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="./main.js"></script>
+</body>
+
+</html>
