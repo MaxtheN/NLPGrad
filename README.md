@@ -1,4 +1,4 @@
-Add .env file to the root directory. Contents:
+Add ``.env`` file to the root directory. Contents:
 ```
 SECRET_KEY=super_secret_key
 DEBUG=True
@@ -13,4 +13,5 @@ DB_PASSWORD=postgres
 DB_HOST=db
 DB_PORT=5432
 ```
-Just run docker compose up
+Just run ``docker compose up``
+wait a bit and run ``test.html`` after everything is done
