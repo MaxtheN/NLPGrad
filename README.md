@@ -1,4 +1,4 @@
-Add .env file to the root directory. Contents:
+Add ``.env`` file to the root directory. Contents:
 ```
 SECRET_KEY=super_secret_key
 DEBUG=True
