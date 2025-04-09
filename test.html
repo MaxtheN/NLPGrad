@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chatbot Test</title>
+</head>
+<body>
+  <div id="chat"></div>
+  <input type="text" id="msgBox" />
+  <button onclick="sendMessage()">Send</button>
+
+  <script>
+    const socket = new WebSocket("ws://localhost:8000/ws/chat/");
+    const chatDiv = document.getElementById("chat");
+
+    socket.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      const role = data.role;
+      const content = data.content;
+      // partial messages can be appended
+      chatDiv.innerHTML += `<p><strong>${role}:</strong> ${content}</p>`;
+    };
+
+    function sendMessage() {
+      const msgInput = document.getElementById("msgBox");
+      const message = msgInput.value.trim();
+      if (!message) return;
+      socket.send(JSON.stringify({ message }));
+      msgInput.value = "";
+    }
+  </script>
+</body>
+</html>

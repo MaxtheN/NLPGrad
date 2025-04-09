@@ -1,0 +1,7 @@
+Django~=5.2
+channels
+channels-redis
+uvicorn[standard]
+httpx
+psycopg2-binary
+python-dotenv
