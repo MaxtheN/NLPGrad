@@ -1,5 +1,6 @@
 Add .env file to the root directory. Contents:
-```SECRET_KEY=super_secret_key
+```
+SECRET_KEY=super_secret_key
 DEBUG=True
 REDIS_HOST=redis
 REDIS_PORT=6379
@@ -10,5 +11,6 @@ DB_NAME=postgres
 DB_USER=postgres
 DB_PASSWORD=postgres
 DB_HOST=db
-DB_PORT=5432```
+DB_PORT=5432
+```
 Just run docker compose up
