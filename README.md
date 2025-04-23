@@ -12,6 +12,5 @@ DB_PASSWORD=postgres
 DB_HOST=db
 DB_PORT=5432
 ```
-run ``chmod +x web-entrypoint.sh`` if you are on linux
 Just run ``docker compose up``
 wait a bit and run ``test.html`` after everything is done
