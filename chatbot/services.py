@@ -1,28 +1,50 @@
-"""
-chatbot/services.py
-Provides functionality to query the external LLM with streaming.
-"""
+# chatbot/services.py
 
 import os
-import httpx
-import asyncio
-import json
+from openai import OpenAI
+from typing import AsyncGenerator
 
-LLM_API_URL = os.getenv("LLM_API_URL", "http://localhost:8001/api/llm/stream")
-LLM_API_KEY = os.getenv("LLM_API_KEY", "")
+# Use the newer OpenAI client
+client = OpenAI(api_key=os.getenv("LLM_API_KEY"))
 
-async def stream_llm_response(messages):
-    prompt = "\n".join([f"{m['role']}: {m['content']}" for m in messages]) + "\nassistant:"
+MODEL_ID = "ft:gpt-4o-mini-2024-07-18:personal:gradpexp3:BMfKppPU"
 
-    payload = {
-        "model": "orca-mini",
-        "prompt": prompt,
-        "stream": True
-    }
+async def stream_llm_response(messages) -> AsyncGenerator[str, None]:
+    """
+    Streams completion directly from OpenAI fine-tuned GPT-4o-mini.
+    Only the latest user question is passed.
+    """
+    user_question = next((m["content"] for m in reversed(messages) if m["role"] == "user"), None)
+    if not user_question:
+        yield "No valid user input found."
+        return
 
-    async with httpx.AsyncClient(timeout=None) as client:
-        async with client.stream("POST", LLM_API_URL, json=payload) as response:
-            async for line in response.aiter_lines():
-                if line.strip():
-                    data = json.loads(line)
-                    yield data.get("response", "")
+    try:
+        stream = client.chat.completions.create(
+            model=MODEL_ID,
+            messages=[
+                {
+                    "role": "system",
+                    "content": (
+                        "You are very helpful chatbot assistant. "
+                        "Your only responsibility is to help user to answer questions related to python programming language. "
+                        "If user tries to ask anything other than python programming language, just reply like this - "
+                        "'Ask me about collections library'. "
+                        "Your current language is English."
+                    ),
+                },
+                {
+                    "role": "user",
+                    "content": user_question,
+                },
+            ],
+            stream=True,
+        )
+
+        for chunk in stream:
+            content = chunk.choices[0].delta.content
+            if content:
+                yield content
+
+    except Exception as e:
+        yield f"[ERROR] {str(e)}"

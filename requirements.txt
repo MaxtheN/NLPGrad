@@ -2,6 +2,7 @@ Django~=5.2
 channels
 channels-redis
 uvicorn[standard]
-httpx
 psycopg2-binary
 python-dotenv
+httpx==0.26.0
+openai==1.13.3
